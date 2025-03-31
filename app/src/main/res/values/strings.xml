@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">EasyText</string>
+    <string name="title">Записи</string>
+    <string name="add_note_btn">+ Добавить запись</string>
+    <string name="back_btn">Назад</string>
+    <string name="forward_button">Далее</string>
+</resources>
