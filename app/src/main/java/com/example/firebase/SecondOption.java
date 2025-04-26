@@ -1,5 +1,7 @@
 package com.example.firebase;
 
+import static java.lang.Integer.parseInt;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -57,10 +59,32 @@ public class SecondOption extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentSecondOptionBinding.inflate(inflater, container, false);
-               if (getArguments() != null) {
-            String text= getArguments().getString(ARG_PARAM1);
-            binding.tv.setText(text.replace("<br>", "\n"));
+
+        final String[] s = {"0"};
+
+        if (getArguments() != null) {
+           upd(s);
         }
+
+        binding.okBtn.setOnClickListener(v ->{
+            String ans = binding.inputtext.getText().toString();
+            if (ans.toLowerCase().equals(s[0].toLowerCase())){
+                binding.correct.setText(R.string.correct);
+            } else{
+                binding.correct.setText("Неверно, правильный ответ: "+s[0]+".");
+            }
+            upd(s);
+            binding.inputtext.setText("");
+        });
         return binding.getRoot();
+    }
+    public void upd(String[] s){
+        WordSkipper ts = new WordSkipper();
+        if (getArguments() != null) {
+            String text= getArguments().getString(ARG_PARAM1);
+            String[] text_2 = ts.doSkip(text.replace("<br>", " \n "));
+            binding.tv.setText(text_2[0]);
+            s[0] = text_2[1];
+        }
     }
 }

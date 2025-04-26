@@ -8,4 +8,7 @@
     <string name="notext">Нет текста</string>
     <string name="firstopt">Учить с сокращенными словами</string>
     <string name="secondopt">Учить с пропущенными буквами</string>
+    <string name="cancel">Отмена</string>
+    <string name="correct">ВЕРНО!</string>
+    <string name="incorrect">НЕВЕРНО</string>
 </resources>

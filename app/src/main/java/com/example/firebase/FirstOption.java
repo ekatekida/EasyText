@@ -1,5 +1,7 @@
 package com.example.firebase;
 
+import static java.lang.Integer.parseInt;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -60,6 +62,26 @@ public class FirstOption extends Fragment {
             String text= getArguments().getString(ARG_PARAM1);
             binding.tv.setText(text.replace("<br>", "\n"));
         }
+        final String[] s = {"0"};
+        TextShortener ts = new TextShortener();
+        binding.next.setOnClickListener(v -> {
+            if (parseInt(s[0]) != 3) {
+                s[0] = String.valueOf((parseInt(s[0])+1));
+            }
+            if (getArguments() != null) {
+                String text= getArguments().getString(ARG_PARAM1);
+                binding.tv.setText(ts.doShortening(parseInt(s[0]), text.replace("<br>", " \n ")));
+            }
+        });
+        binding.back.setOnClickListener(v -> {
+            if (parseInt(s[0]) != 0) {
+                s[0] = String.valueOf((parseInt(s[0])-1));
+            }
+            if (getArguments() != null) {
+                String text= getArguments().getString(ARG_PARAM1);
+                binding.tv.setText(ts.doShortening(parseInt(s[0]), text.replace("<br>", " \n ")));
+            }
+        });
         return binding.getRoot();
     }
 }

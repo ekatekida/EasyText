@@ -50,10 +50,19 @@ public class MainActivity extends AppCompatActivity {
                         EditText userText = promptsView.findViewById(R.id.editTextTextMultiLine);
                         Log.d(TAG, userName.getText().toString());
                         Note note = new Note(userName.getText().toString(), userComment.getText().toString(), userText.getText().toString().replace("\n", "<br>"));
+                        if (note.getName().isEmpty()){
+                            note.setName("<Без заголовка>");
+                        }
+                        if (note.getComment().isEmpty()){
+                            note.setName("<Без комментария>");
+                        }
+                        if (note.getText().isEmpty()){
+                            note.setName("<Без текста>");
+                        }
                         arrayList.add(note);
                         doSave(note);
                     })
-                    .setNegativeButton("Отмена",
+                    .setNegativeButton(R.string.cancel,
                             (dialog, id) -> dialog.cancel());
             AlertDialog alertDialog = mDialogBuilder.create();
 
@@ -89,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Error!", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, e.toString());
                 });
+
     }
 
     public void doSave(Note note) {
@@ -101,13 +111,13 @@ public class MainActivity extends AppCompatActivity {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             if (document.getId() == note.getName()) {
                                 f = false;
-                            }}
+                            }
+                        }
                             if (f){
                                 saving(note);
                             }else {
                                 Toast.makeText(MainActivity.this, "Запись с таким названием уже существует!", Toast.LENGTH_SHORT).show();
                             }
-
                     } else{
                         Toast.makeText(MainActivity.this, "Error!", Toast.LENGTH_SHORT).show();
                     }

@@ -20,13 +20,35 @@
             android:scrollHorizontally="false"
             android:text= "@string/notext" />
 
-        <Button
-            android:id="@+id/forward_btn"
+        <TextView
+            android:id="@+id/correct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/forward_button" />
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/inputtext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:ems="10"
+                android:hint="Введите слово..."
+                android:inputType="text" />
+
+            <Button
+                android:id="@+id/ok_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="OK" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </FrameLayout>
