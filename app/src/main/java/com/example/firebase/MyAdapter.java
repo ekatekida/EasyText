@@ -1,23 +1,18 @@
 package com.example.firebase;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.PopupMenu;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.firebase.databinding.ViewitemBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -25,7 +20,6 @@ import java.util.ArrayList;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private ArrayList<Note> dataList;
     private Context context;
-
 
     public MyAdapter(ArrayList<Note> notes, Context context) {
         this.dataList = notes;
@@ -35,16 +29,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewitem, parent, false);
-        return new ViewHolder(view);
+        ViewitemBinding binding = ViewitemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Note data = dataList.get(position);
         Log.d("RRR","onBindViewHolder");
-        holder.textViewField1.setText(data.getName().toString());
-        holder.textViewField2.setText(data.getComment().toString());
+        holder.binding.textView.setText(data.getName());
+        holder.binding.textView2.setText(data.getComment());
 
         holder.itemView.setOnClickListener (v -> {
             Log.d("RRR","position:"+position);
@@ -63,18 +57,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewField1;
-        TextView textViewField2;
-        Button btnMenu;
-        public ViewHolder(View itemView) {
-            super(itemView);
-            btnMenu = itemView.findViewById(R.id.btn_menu);
-
-            btnMenu.setOnClickListener(v -> {
+        ViewitemBinding binding;
+        public ViewHolder(ViewitemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+            binding.btnMenu.setOnClickListener(v -> {
                 showContextMenu(itemView, getPosition());
             });
-            textViewField1 = itemView.findViewById(R.id.textView);
-            textViewField2 = itemView.findViewById(R.id.textView2);
         }
     }
     public void removeItem(int position) {
@@ -87,7 +76,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         popup.getMenuInflater().inflate(R.menu.menu_item, popup.getMenu());
         popup.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.delete){
-
                 db.collection("Notes").document(dataList.get(position).getName())
                         .delete()
                         .addOnSuccessListener(aVoid -> {

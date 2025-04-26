@@ -32,14 +32,13 @@
             android:id="@+id/name_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="No name"
+            android:text="@string/noname"
             android:textSize="48sp" />
 
         <TextView
             android:id="@+id/comment_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="No comment"
             android:textSize="24sp" />
 
         <androidx.fragment.app.FragmentContainerView

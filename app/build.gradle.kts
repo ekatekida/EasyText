@@ -30,7 +30,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     buildFeatures {
-        dataBinding = true
+        viewBinding = true
     }
 }
 
@@ -45,9 +45,6 @@ dependencies {
     implementation("com.firebaseui:firebase-ui-database:9.0.0")
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
-
-    //  implementation(libs.databinding.runtime)
-  //  implementation(com.firebaseui:firebase-ui-database)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

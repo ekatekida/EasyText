@@ -10,8 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
+
+import com.example.firebase.databinding.FragmentTextBinding;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,7 +20,7 @@ import android.widget.TextView;
  * create an instance of this fragment.
  */
 public class TextFr extends Fragment {
-    TextView text_tv;
+    private FragmentTextBinding binding;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -58,22 +59,18 @@ public class TextFr extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_text, container, false);
+
+        binding = FragmentTextBinding.inflate(inflater, container, false);
 
         String text ="";
         if (getArguments() != null) {
             text= getArguments().getString(ARG_PARAM1);
             Log.d("data", text);
-
-            text_tv = view.findViewById(R.id.tv);
-            text_tv.setText(text);
+            binding.tv.setText(text.replace("<br>", "\n"));
         }
 
-        Button first_opt, second_opt;
-        first_opt = view.findViewById(R.id.button1);
-        second_opt = view.findViewById(R.id.button2);
         FirstOption Opt_1 = FirstOption.newInstance(text);
-        first_opt.setOnClickListener(v -> {
+        binding.button1.setOnClickListener(v -> {
             FragmentManager fm = getActivity().getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             ft.replace(R.id.fragmentContainerView2, Opt_1);
@@ -81,14 +78,13 @@ public class TextFr extends Fragment {
             ft.commit();
         });
         SecondOption Opt_2 = SecondOption.newInstance(text);
-        second_opt.setOnClickListener(v -> {
+        binding.button2.setOnClickListener(v -> {
             FragmentManager fm = getActivity().getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             ft.replace(R.id.fragmentContainerView2,  Opt_2);
             ft.addToBackStack(null);
             ft.commit();
         });
-        return view;
-
+        return binding.getRoot();
     }
 }

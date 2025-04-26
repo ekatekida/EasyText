@@ -4,4 +4,8 @@
     <string name="add_note_btn">+ Добавить запись</string>
     <string name="back_btn">Назад</string>
     <string name="forward_button">Далее</string>
+    <string name="noname">Без заголовка</string>
+    <string name="notext">Нет текста</string>
+    <string name="firstopt">Учить с сокращенными словами</string>
+    <string name="secondopt">Учить с пропущенными буквами</string>
 </resources>
