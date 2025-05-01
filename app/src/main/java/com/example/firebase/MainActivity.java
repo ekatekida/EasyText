@@ -6,11 +6,14 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +63,18 @@ public class MainActivity extends AppCompatActivity {
             prefEditor.apply();
             Log.d("User UID", uid);
         }
+
+        binding.search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.filter(newText);
+                return true;
+            }
+        });
 
         binding.settingsBtn.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
@@ -117,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
                             arrayList.add(data);
                             binding.recyclerView.setAdapter(adapter);
                         }
+                        adapter.filter("");
                         adapter.notifyDataSetChanged();
                     } else {
                         Log.w("Firestore", "Error getting documents.", task.getException());
@@ -175,5 +191,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
     }
+
 }
 

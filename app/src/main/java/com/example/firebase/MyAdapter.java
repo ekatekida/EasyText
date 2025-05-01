@@ -22,11 +22,13 @@ import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private ArrayList<Note> dataList;
+    private ArrayList<Note> filteredNotes;
     private Context context;
     private static final String PREFS_FILE = "Account";
 
     public MyAdapter(ArrayList<Note> notes, Context context) {
         this.dataList = notes;
+        this.filteredNotes= new ArrayList<>(notes);
         this.context = context;
     }
 
@@ -39,7 +41,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Note data = dataList.get(position);
+        Note data = filteredNotes.get(position);
         Log.d("RRR","onBindViewHolder");
         holder.binding.textView.setText(data.getName());
         holder.binding.textView2.setText(data.getComment());
@@ -55,7 +57,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return dataList.size();
+        return filteredNotes.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -68,6 +70,22 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             });
         }
     }
+    public void filter(String query) {
+        filteredNotes.clear();
+        if (query.isEmpty() ||  query.equals("")) {
+            filteredNotes.addAll(dataList);
+        } else {
+            Toast.makeText(context, "fd "+query, Toast.LENGTH_SHORT).show();
+            String filterPattern = query.toLowerCase().trim();
+            for (Note note : dataList) {
+                if (note.getName().toLowerCase().contains(filterPattern)) {
+                    filteredNotes.add(note);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
 
     public void removeItem(int position) {
         dataList.remove(position);
@@ -97,5 +115,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         });
         popup.show();
     }
+
 
 }
