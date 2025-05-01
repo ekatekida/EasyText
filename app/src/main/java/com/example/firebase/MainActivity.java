@@ -3,43 +3,78 @@ package com.example.firebase;
 import static android.content.ContentValues.TAG;
 
 import android.app.AlertDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.firebase.databinding.ActivityMainBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String PREFS_FILE = "Account";
+    private static final String PREF_EMAIL = "Name";
+    private FirebaseAuth auth;
+    private SharedPreferences settings;
     private FirebaseFirestore db;
     private CollectionReference collection;
+    private String uid;
     private ActivityMainBinding binding;
-    ArrayList<Note> arrayList = new ArrayList<>();
-    MyAdapter adapter = new MyAdapter(arrayList, this);
+    public ArrayList<Note> arrayList = new ArrayList<>();
+    public MyAdapter adapter = new MyAdapter(arrayList, this);
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+        settings = getSharedPreferences(PREFS_FILE, MODE_PRIVATE);
         LayoutInflater li = LayoutInflater.from(getApplicationContext());
         View promptsView = li.inflate(R.layout.window, null);
         AlertDialog.Builder mDialogBuilder= new AlertDialog.Builder(MainActivity.this);
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         db = FirebaseFirestore.getInstance();
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        auth = FirebaseAuth.getInstance();
+        String name = settings.getString(PREF_EMAIL,"-");
+        if (name.equals("-")){
+            Intent intent = new Intent(this, Registration.class);
+            this.startActivity(intent);
+        }else{
+            FirebaseUser user = auth.getCurrentUser();
+            uid = user.getUid();
+            SharedPreferences.Editor prefEditor = settings.edit();
+            prefEditor.putString("UID", uid);
+            prefEditor.apply();
+            Log.d("User UID", uid);
+        }
+
+        binding.settingsBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            MainActivity.this.startActivity(intent);
+        });
+
+        binding.signOutBtn.setOnClickListener(v->{
+            SharedPreferences.Editor prefEditor = settings.edit();
+            prefEditor.putString(PREF_EMAIL, "-");
+            prefEditor.apply();
+            Intent intent = new Intent(this, Registration.class);
+            finish();
+            this.startActivity(intent);
+        });
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.button.setOnClickListener((View v) -> {
             mDialogBuilder.setView(promptsView);
             mDialogBuilder
@@ -65,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
                     .setNegativeButton(R.string.cancel,
                             (dialog, id) -> dialog.cancel());
             AlertDialog alertDialog = mDialogBuilder.create();
-
             if (promptsView.getParent() != null) {
                 ViewGroup parent = (ViewGroup) promptsView.getParent();
                 parent.removeView(promptsView);
@@ -73,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
             alertDialog.show();
         });
 
-        db.collection("Notes")
+        db.collection(settings.getString("UID","-"))
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -81,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.d(TAG, document.getId() + " => " + document.getData());
                             Note data = document.toObject(Note.class);
                             arrayList.add(data);
-                            recyclerView.setAdapter(adapter);
+                            binding.recyclerView.setAdapter(adapter);
                         }
                         adapter.notifyDataSetChanged();
                     } else {
@@ -92,7 +126,10 @@ public class MainActivity extends AppCompatActivity {
     public void saving(Note note){
         collection.document(note.getName()).set(note)
                 .addOnSuccessListener(aVoid -> {
-                    adapter.notifyDataSetChanged();
+                    Log.d("RRRRRRRRRRRRRRR", arrayList.get(0).getName());
+                    adapter.notifyItemInserted(0);
+                    finish();
+                    startActivity(getIntent());
                     Toast.makeText(MainActivity.this, "Запись '" + note.getName() + "' сохрнена!", Toast.LENGTH_SHORT).show();
                 }).addOnFailureListener(e -> {
                     Toast.makeText(MainActivity.this, "Error!", Toast.LENGTH_SHORT).show();
@@ -102,8 +139,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void doSave(Note note) {
-        collection = db.collection("Notes");
-        db.collection("Notes")
+        collection = db.collection(settings.getString("UID","-"));
+        db.collection(settings.getString("UID","-"))
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -122,6 +159,21 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Error!", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+    private void setFontSize(ViewGroup viewGroup, float size) {
+        for (int i = 0; i < viewGroup.getChildCount(); i++) {
+            View child = viewGroup.getChildAt(i);
+            if (child instanceof TextView) {
+                ((TextView)child).setTextSize(size);
+            } else if (child instanceof ViewGroup) {
+                setFontSize((ViewGroup)child, size);
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }
 
