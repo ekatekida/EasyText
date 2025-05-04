@@ -104,10 +104,10 @@ public class MainActivity extends AppCompatActivity {
                             note.setName("<Без заголовка>");
                         }
                         if (note.getComment().isEmpty()){
-                            note.setName("<Без комментария>");
+                            note.setComment("<Без комментария>");
                         }
                         if (note.getText().isEmpty()){
-                            note.setName("<Без текста>");
+                            note.setTexts("<Без текста>");
                         }
                         arrayList.add(note);
                         doSave(note);
@@ -130,10 +130,9 @@ public class MainActivity extends AppCompatActivity {
                             Log.d(TAG, document.getId() + " => " + document.getData());
                             Note data = document.toObject(Note.class);
                             arrayList.add(data);
-                            binding.recyclerView.setAdapter(adapter);
                         }
+                        binding.recyclerView.setAdapter(adapter);
                         adapter.filter("");
-                        adapter.notifyDataSetChanged();
                     } else {
                         Log.w("Firestore", "Error getting documents.", task.getException());
                     }
@@ -143,15 +142,13 @@ public class MainActivity extends AppCompatActivity {
         collection.document(note.getName()).set(note)
                 .addOnSuccessListener(aVoid -> {
                     Log.d("RRRRRRRRRRRRRRR", arrayList.get(0).getName());
-                    adapter.notifyItemInserted(0);
-                    finish();
-                    startActivity(getIntent());
+                    binding.recyclerView.setAdapter(adapter);
+                    adapter.filter("");
                     Toast.makeText(MainActivity.this, "Запись '" + note.getName() + "' сохрнена!", Toast.LENGTH_SHORT).show();
                 }).addOnFailureListener(e -> {
                     Toast.makeText(MainActivity.this, "Error!", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, e.toString());
                 });
-
     }
 
     public void doSave(Note note) {
@@ -176,17 +173,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
-    private void setFontSize(ViewGroup viewGroup, float size) {
-        for (int i = 0; i < viewGroup.getChildCount(); i++) {
-            View child = viewGroup.getChildAt(i);
-            if (child instanceof TextView) {
-                ((TextView)child).setTextSize(size);
-            } else if (child instanceof ViewGroup) {
-                setFontSize((ViewGroup)child, size);
-            }
-        }
-    }
-
     @Override
     protected void onResume() {
         super.onResume();

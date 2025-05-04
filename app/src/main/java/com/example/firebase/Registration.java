@@ -51,13 +51,13 @@ public class Registration extends AppCompatActivity {
                             binding.warning.setText("");
                             openMainActivity();
                             Log.d("RRR","Sign Up success: "+task.getResult().getUser().getUid());
-                            Toast.makeText(Registration.this, "Успешный вход в аккаунт: "+email, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Registration.this, "Успешная регистрация аккаунта: "+email, Toast.LENGTH_SHORT).show();
                         } else {
                             if (binding.editPassword.getText().toString().length() <6){
                                 binding.warning.setText("Пароль должен быть минимум 6 символов");
                             } else {
                                 Log.d("RRR", "Error: " + task.getException());
-                                Toast.makeText(Registration.this, "Ошибка входа", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Registration.this, "Ошибка регистрации", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -74,13 +74,13 @@ public class Registration extends AppCompatActivity {
                             binding.warning.setText("");
                             openMainActivity();
                             Log.d("RRR","Auth success: "+task.getResult().getUser().getUid());
-                            Toast.makeText(Registration.this, "Успешная регистрация аккаунта: "+email, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Registration.this, "Успешный вход в аккаунт:"+email, Toast.LENGTH_SHORT).show();
                         } else {
                             if (binding.editPassword.getText().toString().length() <6){
                                 binding.warning.setText("Пароль должен быть минимум 6 символов");
                             } else {
                                 Log.d("RRR", "Error: " + task.getException());
-                                Toast.makeText(Registration.this, "Ошибка регистрации", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Registration.this, "Ошибка входа", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
