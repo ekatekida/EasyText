@@ -6,15 +6,12 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -97,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                     .setPositiveButton("OK", (dialog, id) -> {
                         EditText userName =  promptsView.findViewById(R.id.editName);
                         EditText userComment = promptsView.findViewById(R.id.editComment);
-                        EditText userText = promptsView.findViewById(R.id.editTextTextMultiLine);
+                        EditText userText = promptsView.findViewById(R.id.EditComment);
                         Log.d(TAG, userName.getText().toString());
                         Note note = new Note(userName.getText().toString(), userComment.getText().toString(), userText.getText().toString().replace("\n", "<br>"));
                         if (note.getName().isEmpty()){

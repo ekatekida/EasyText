@@ -47,7 +47,7 @@
         android:text="Текст" />
 
     <EditText
-        android:id="@+id/editTextTextMultiLine"
+        android:id="@+id/EditComment"
         android:layout_width="325dp"
         android:layout_height="wrap_content"
         android:ems="10"

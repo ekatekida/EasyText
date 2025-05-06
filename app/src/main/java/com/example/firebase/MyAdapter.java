@@ -129,25 +129,28 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         mDialogBuilder.setView(promptsView);
         TextView tv = promptsView.findViewById(R.id.heading);
         tv.setText("Изменить запись");
+        EditText noteName = promptsView.findViewById(R.id.editName);
+        EditText noteComment = promptsView.findViewById(R.id.editComment);
+        EditText noteText = promptsView.findViewById(R.id.EditComment);
+        noteName.setText(note.getName());
+        noteComment.setText(note.getComment());
+        noteText.setText(note.getText());
         mDialogBuilder
                 .setCancelable(false)
                 .setPositiveButton("OK", (dialog, id) -> {
-                    EditText userName = promptsView.findViewById(R.id.editName);
-                    EditText userComment = promptsView.findViewById(R.id.editComment);
-                    EditText userText = promptsView.findViewById(R.id.editTextTextMultiLine);
-                    Note note1 = new Note(userName.getText().toString(), userComment.getText().toString(), userText.getText().toString().replace("\n", "<br>"));
-                    if (note1.getName().isEmpty()) {
-                        note1.setName("<Без заголовка>");
+                    Note edited_note = new Note(noteName.getText().toString(), noteComment.getText().toString(), noteText.getText().toString().replace("\n", "<br>"));
+                    if (edited_note.getName().isEmpty()) {
+                        edited_note.setName("<Без заголовка>");
                     }
-                    if (note1.getComment().isEmpty()) {
-                        note1.setComment("<Без комментария>");
+                    if (edited_note.getComment().isEmpty()) {
+                        edited_note.setComment("<Без комментария>");
                     }
-                    if (note1.getText().isEmpty()) {
-                        note1.setTexts("<Без текста>");
+                    if (edited_note.getText().isEmpty()) {
+                        edited_note.setTexts("<Без текста>");
                     }
-                    filteredNotes.add(position+1, note1);
-                    dataList.add(position+1, note1);
-                    doSave(note1, position);
+                    filteredNotes.add(position+1, edited_note);
+                    dataList.add(position+1, edited_note);
+                    doSave(edited_note, position);
                 })
                 .setNegativeButton(R.string.cancel,
                         (dialog, id) -> dialog.cancel());
