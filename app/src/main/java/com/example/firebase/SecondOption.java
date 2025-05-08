@@ -83,7 +83,7 @@ public class SecondOption extends Fragment {
                     words[i]="";
                     break;
                 }
-                if (words[i].isEmpty() && i==words.length-1){
+                if (c[0]==1){
                     DoneFragment done = DoneFragment.newInstance("","");
                     FragmentManager fm = getActivity().getSupportFragmentManager();
                     FragmentTransaction ft = fm.beginTransaction();
@@ -95,10 +95,10 @@ public class SecondOption extends Fragment {
             if (ans.toLowerCase().equals(s[0].toLowerCase())){
                 binding.correct.setText(R.string.correct);
                 c[0] -= 1;
-                Toast.makeText(getContext(), "Осталось отгадать слов: "+c[0]+" из "+c[1], Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.left_to)+c[0]+getString(R.string.words_from)+c[1], Toast.LENGTH_SHORT).show();
 
             } else{
-                binding.correct.setText("Неверно, правильный ответ: "+s[0]+".");
+                binding.correct.setText(getString(R.string.wrong)+s[0]+".");
             }
             upd(s);
             binding.inputtext.setText("");

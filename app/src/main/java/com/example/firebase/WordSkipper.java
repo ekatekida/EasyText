@@ -1,6 +1,5 @@
 package com.example.firebase;
 
-import java.util.Objects;
 import java.util.Random;
 
 public class WordSkipper {

@@ -3,13 +3,17 @@ package com.example.firebase;
 import static android.content.ContentValues.TAG;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -36,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     public ArrayList<Note> arrayList = new ArrayList<>();
     public MyAdapter adapter = new MyAdapter(arrayList, this);
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(FontManager.applyFontSize(newBase));
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

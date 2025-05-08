@@ -21,7 +21,8 @@
                 android:id="@+id/settings_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/settings" />
+                android:text="@string/settings"
+                app:icon="@drawable/ic_action_name" />
 
             <Button
                 android:id="@+id/sign_out_btn"

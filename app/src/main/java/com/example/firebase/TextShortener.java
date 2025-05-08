@@ -2,7 +2,7 @@ package com.example.firebase;
 
 public class TextShortener {
     public String doShortening( int c, String text){
-        String[] words = text.split("(?<= )|(?= )|(?<=\\p{Punct})|(?=\\p{Punct})"); // Разделение с сохранением пунктуации
+        String[] words = text.split("(?<= )|(?= )|(?<=\\p{Punct})|(?=\\p{Punct})");
         String result = " ";
         String vowels = "аоиеёэыуюя";
         for (String word : words) {

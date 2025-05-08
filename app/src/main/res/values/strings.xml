@@ -48,4 +48,10 @@
     <string name="edit">Редактировать</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="left_to">"Осталось отгадать "</string>
+    <string name="words_from">" слов из "</string>
+    <string name="wrong">"Неверно, правильный ответ: "</string>
+    <string name="note_exist">Запись с таким названием уже существует!</string>
+    <string name="note_">Запись \'</string>
+    <string name="_saved">\' сохрнена!</string>
 </resources>

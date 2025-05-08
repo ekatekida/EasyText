@@ -110,7 +110,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         Context context = view.getContext();
         PopupMenu popup = new PopupMenu(view.getContext(), view);
         popup.getMenuInflater().inflate(R.menu.menu_item, popup.getMenu());
-       // popup.getMenu().findItem(R.id.edit).setIcon(R.drawable.ic_edit);
         settings = context.getSharedPreferences(PREFS_FILE, MODE_PRIVATE);
         popup.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.delete){
@@ -178,7 +177,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                         if (f){
                             saving(note, posToDel);
                         }else {
-                            Toast.makeText(context, "Запись с таким названием уже существует!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, R.string.note_exist, Toast.LENGTH_SHORT).show();
                         }
                     } else{
                         Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show();
@@ -188,10 +187,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void saving(Note note, int posToDel){
         collection.document(note.getName()).set(note)
                 .addOnSuccessListener(aVoid -> {
-                    Log.d("RRRRRRRRRRRRRRR", dataList.get(0).getName());
                     deleting(posToDel);
                     notifyDataSetChanged();
-                    Toast.makeText(context, "Запись '" + note.getName() + "' сохрнена!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getString(R.string.note_) + note.getName() + context.getString(R.string._saved), Toast.LENGTH_SHORT).show();
                 }).addOnFailureListener(e -> {
                     Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, e.toString());
