@@ -5,12 +5,18 @@ import static java.lang.Integer.parseInt;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.firebase.databinding.FragmentSecondOptionBinding;
+
+import java.util.Arrays;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,13 +69,34 @@ public class SecondOption extends Fragment {
         final String[] s = {"0"};
 
         if (getArguments() != null) {
-           upd(s);
+            upd(s);
         }
-
+        String text= getArguments().getString(ARG_PARAM1);
+        String[] words = text.split("(?<= )|(?= )|(?<=\\p{Punct})|(?=\\p{Punct})");
+        int[] c = new int[2];
+        c[0] =  text.split(" ").length;
+        c[1] = text.split(" ").length;
         binding.okBtn.setOnClickListener(v ->{
             String ans = binding.inputtext.getText().toString();
+            for (int i = 0; i < words.length; i++ ){
+                if (words[i].equals(s[0].toLowerCase())){
+                    words[i]="";
+                    break;
+                }
+                if (words[i].isEmpty() && i==words.length-1){
+                    DoneFragment done = DoneFragment.newInstance("","");
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    ft.replace(R.id.fragmentContainerView2, done);
+                    ft.addToBackStack(null);
+                    ft.commit();
+                }
+            }
             if (ans.toLowerCase().equals(s[0].toLowerCase())){
                 binding.correct.setText(R.string.correct);
+                c[0] -= 1;
+                Toast.makeText(getContext(), "Осталось отгадать слов: "+c[0]+" из "+c[1], Toast.LENGTH_SHORT).show();
+
             } else{
                 binding.correct.setText("Неверно, правильный ответ: "+s[0]+".");
             }

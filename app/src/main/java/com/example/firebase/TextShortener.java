@@ -72,9 +72,6 @@ public class TextShortener {
                     result+=word;
                 }
             }
-            else{
-                return "ТЕКСТ ВЫУЧЕН!";
-            }
         }
         return result;
     }

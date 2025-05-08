@@ -5,6 +5,8 @@ import static java.lang.Integer.parseInt;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,8 +67,16 @@ public class FirstOption extends Fragment {
         final String[] s = {"0"};
         TextShortener ts = new TextShortener();
         binding.next.setOnClickListener(v -> {
-            if (parseInt(s[0]) != 6) {
+            DoneFragment done = DoneFragment.newInstance("","");
+            if (parseInt(s[0]) != 5) {
                 s[0] = String.valueOf((parseInt(s[0])+1));
+
+            }else{
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.fragmentContainerView2, done);
+                ft.addToBackStack(null);
+                ft.commit();
             }
             if (getArguments() != null) {
                 String text= getArguments().getString(ARG_PARAM1);
