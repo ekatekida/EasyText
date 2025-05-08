@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Добро пожаловать в EasyText!"
+            android:text="@string/welcome"
             android:textSize="48sp" />
 
         <EditText
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:ems="10"
-            android:hint="e-mail"
+            android:hint="@string/e_mail"
             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@.-?"
             android:inputType="text" />
 
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:ems="10"
-            android:hint="password"
+            android:hint="@string/password"
             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^*()_+-=[]{}|;:',./?"
             android:inputType="textPassword" />
 
@@ -59,7 +59,7 @@
             android:id="@+id/warning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FF0000" />
+            android:textColor="@color/red" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -72,14 +72,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Войти" />
+                android:text="@string/sign_in" />
 
             <Button
                 android:id="@+id/signUp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Зарегистрироваться" />
+                android:text="@string/sign_up" />
         </LinearLayout>
 
     </LinearLayout>

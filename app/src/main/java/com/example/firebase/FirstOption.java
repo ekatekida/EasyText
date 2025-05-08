@@ -65,7 +65,7 @@ public class FirstOption extends Fragment {
         final String[] s = {"0"};
         TextShortener ts = new TextShortener();
         binding.next.setOnClickListener(v -> {
-            if (parseInt(s[0]) != 3) {
+            if (parseInt(s[0]) != 6) {
                 s[0] = String.valueOf((parseInt(s[0])+1));
             }
             if (getArguments() != null) {

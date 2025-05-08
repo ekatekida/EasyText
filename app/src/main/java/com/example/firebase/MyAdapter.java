@@ -110,6 +110,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         Context context = view.getContext();
         PopupMenu popup = new PopupMenu(view.getContext(), view);
         popup.getMenuInflater().inflate(R.menu.menu_item, popup.getMenu());
+       // popup.getMenu().findItem(R.id.edit).setIcon(R.drawable.ic_edit);
         settings = context.getSharedPreferences(PREFS_FILE, MODE_PRIVATE);
         popup.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.delete){
@@ -134,7 +135,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         EditText noteText = promptsView.findViewById(R.id.EditComment);
         noteName.setText(note.getName());
         noteComment.setText(note.getComment());
-        noteText.setText(note.getText());
+        noteText.setText(note.getText().replace("<br>", "\n"));
         mDialogBuilder
                 .setCancelable(false)
                 .setPositiveButton("OK", (dialog, id) -> {

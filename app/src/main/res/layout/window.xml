@@ -11,14 +11,14 @@
         android:id="@+id/heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Добавить запись"
+        android:text="@string/add_note"
         android:textSize="34sp" />
 
     <TextView
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Название" />
+        android:text="@string/name" />
 
     <EditText
         android:id="@+id/editName"
@@ -31,7 +31,7 @@
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Комментарий" />
+        android:text="@string/comment" />
 
 
     <EditText
@@ -44,7 +44,7 @@
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Текст" />
+        android:text="@string/text" />
 
     <EditText
         android:id="@+id/EditComment"

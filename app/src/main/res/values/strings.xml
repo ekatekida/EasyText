@@ -27,4 +27,23 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="settings">Настройки</string>
+    <string name="font_size">размер шрифта:</string>
+    <string name="medium">средний</string>
+    <string name="big">большой</string>
+    <string name="small">маленький</string>
+    <string name="quit">Выйти</string>
+    <string name="welcome">Добро пожаловать в EasyText!</string>
+    <string name="e_mail">e-mail</string>
+    <string name="password">password</string>
+    <string name="sign_in">Войти</string>
+    <string name="sign_up">Зарегистрироваться</string>
+    <string name="enter_word">Введите слово...</string>
+    <string name="ok">OK</string>
+    <string name="text">Текст</string>
+    <string name="comment">Комментарий</string>
+    <string name="name">Название</string>
+    <string name="add_note">Добавить запись</string>
+    <string name="del">Удалить</string>
+    <string name="edit">Редактировать</string>
 </resources>
