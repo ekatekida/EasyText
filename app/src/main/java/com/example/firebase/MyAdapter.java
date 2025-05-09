@@ -27,6 +27,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+    final int EMPTY_VIEW = 77777;
     private ArrayList<Note> dataList;
     private ArrayList<Note> filteredNotes;
     private Context context;

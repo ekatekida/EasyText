@@ -8,9 +8,15 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:id="@+id/linearLayout3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -30,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/quit" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -59,7 +66,7 @@
                 android:text="@string/add_note_btn" />
         </LinearLayout>
 
-        <SearchView
+        <android.widget.SearchView
             android:id="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -73,12 +80,26 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="7dp"
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="18dp"
             android:paddingStart="5dp"
-            android:paddingLeft="5dp" />
+            android:paddingLeft="5dp">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/tvEmpty"
+            android:layout_width="393dp"
+            android:layout_height="41dp"
+            android:layout_weight="6"
+            android:gravity="center"
+            android:text="Пусто"
+            android:textColor="#8E8E8E"
+            android:textSize="34sp"
+            android:visibility="gone" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
