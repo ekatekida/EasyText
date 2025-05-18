@@ -16,9 +16,10 @@
         <TextView
             android:id="@+id/tv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="30"
+            android:layout_height="wrap_content"
+            android:layout_weight="40"
             android:gravity="center"
+            android:scrollbars = "vertical"
             android:scrollHorizontally="false"
             android:text="@string/notext" />
 

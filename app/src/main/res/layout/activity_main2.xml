@@ -32,14 +32,23 @@
             android:id="@+id/name_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/noname"
-            android:textSize="48sp" />
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/comment_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp" />
+            android:layout_gravity="center"
+            android:gravity="center" />
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="?android:attr/listDivider"
+            android:backgroundTint="#673AB7" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerView2"

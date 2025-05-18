@@ -22,10 +22,12 @@
 
     <EditText
         android:id="@+id/editName"
-        android:layout_width="326dp"
-        android:layout_height="wrap_content">
-        <requestFocus/>
-    </EditText>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:maxLength="23"
+        android:inputType="text"
+        />
 
     <TextView
         android:id="@+id/textView12"
@@ -36,9 +38,11 @@
 
     <EditText
         android:id="@+id/editComment"
-        android:layout_width="325dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10" />
+        android:ems="10"
+        android:maxLength="23"
+        android:inputType="text" />
 
     <TextView
         android:id="@+id/textView13"
@@ -47,8 +51,8 @@
         android:text="@string/text" />
 
     <EditText
-        android:id="@+id/EditComment"
-        android:layout_width="325dp"
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:gravity="start|top"

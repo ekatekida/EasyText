@@ -8,19 +8,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.example.firebase.databinding.ActivityMainBinding;
 import com.example.firebase.databinding.ActivityRegistrationBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class Registration extends AppCompatActivity {
     private FirebaseAuth auth;
@@ -51,13 +42,13 @@ public class Registration extends AppCompatActivity {
                             binding.warning.setText("");
                             openMainActivity();
                             Log.d("RRR","Sign Up success: "+task.getResult().getUser().getUid());
-                            Toast.makeText(Registration.this, "Успешная регистрация аккаунта: "+email, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Registration.this, getString(R.string.success)+email, Toast.LENGTH_SHORT).show();
                         } else {
                             if (binding.editPassword.getText().toString().length() <6){
-                                binding.warning.setText("Пароль должен быть минимум 6 символов");
+                                binding.warning.setText(R.string.passwordlength);
                             } else {
                                 Log.d("RRR", "Error: " + task.getException());
-                                Toast.makeText(Registration.this, "Ошибка регистрации", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Registration.this, R.string.sign_up_error, Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -74,13 +65,13 @@ public class Registration extends AppCompatActivity {
                             binding.warning.setText("");
                             openMainActivity();
                             Log.d("RRR","Auth success: "+task.getResult().getUser().getUid());
-                            Toast.makeText(Registration.this, "Успешный вход в аккаунт:"+email, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Registration.this, getString(R.string.success_sign_in)+email, Toast.LENGTH_SHORT).show();
                         } else {
                             if (binding.editPassword.getText().toString().length() <6){
-                                binding.warning.setText("Пароль должен быть минимум 6 символов");
+                                binding.warning.setText(R.string.passwordlength);
                             } else {
                                 Log.d("RRR", "Error: " + task.getException());
-                                Toast.makeText(Registration.this, "Ошибка входа", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Registration.this, R.string.sign_in_error, Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

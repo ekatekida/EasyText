@@ -30,11 +30,10 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private static final String PREFS_FILE = "Account";
     private static final String PREF_EMAIL = "Name";
-    private FirebaseAuth auth;
     private SharedPreferences settings;
     private FirebaseFirestore db;
     private CollectionReference collection;
-    private String uid;
+
     private ActivityMainBinding binding;
     public ArrayList<Note> arrayList = new ArrayList<>();
     public MyAdapter adapter = new MyAdapter(arrayList, this);
@@ -51,38 +50,22 @@ public class MainActivity extends AppCompatActivity {
         settings = getSharedPreferences(PREFS_FILE, MODE_PRIVATE);
         LayoutInflater li = LayoutInflater.from(getApplicationContext());
         View promptsView = li.inflate(R.layout.window, null);
-
         AlertDialog.Builder mDialogBuilder= new AlertDialog.Builder(MainActivity.this);
         db = FirebaseFirestore.getInstance();
+        FirebaseAuth auth;
         auth = FirebaseAuth.getInstance();
         String name = settings.getString(PREF_EMAIL,"-");
-        if (!isConnectedNetwork(MainActivity.this)){
-            View no_internet = li.inflate(R.layout.no_internet, null);
-            mDialogBuilder.setView(no_internet);
-            mDialogBuilder
-                    .setCancelable(false)
-                    .setNegativeButton("Выйти",
-                            (dialog, id) ->{
-                                    finish();
-                                    dialog.cancel();
-                    });
-            AlertDialog alertDialog = mDialogBuilder.create();
-            if (no_internet.getParent() != null) {
-                ViewGroup parent = (ViewGroup) no_internet.getParent();
-                parent.removeView(no_internet);
-            }
-            alertDialog.show();
-        }
+        checkInternetConnection();
         if (name.equals("-")){
             Intent intent = new Intent(this, Registration.class);
             this.startActivity(intent);
         }else{
             FirebaseUser user = auth.getCurrentUser();
-            uid = user.getUid();
+            String uid = user.getUid();
             SharedPreferences.Editor prefEditor = settings.edit();
-            prefEditor.putString("UID", uid);
+            prefEditor.putString(getString(R.string.uid), uid);
             prefEditor.apply();
-            Log.d("User UID", uid);
+            Log.d(getString(R.string.uid), uid);
         }
 
         binding.search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -102,14 +85,6 @@ public class MainActivity extends AppCompatActivity {
             MainActivity.this.startActivity(intent);
         });
 
-        binding.signOutBtn.setOnClickListener(v->{
-            SharedPreferences.Editor prefEditor = settings.edit();
-            prefEditor.putString(PREF_EMAIL, "-");
-            prefEditor.apply();
-            Intent intent = new Intent(this, Registration.class);
-            finish();
-            this.startActivity(intent);
-        });
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.tvEmpty.setVisibility(arrayList.isEmpty() ? View.VISIBLE : View.GONE);
         binding.button.setOnClickListener((View v) -> {
@@ -117,23 +92,25 @@ public class MainActivity extends AppCompatActivity {
             mDialogBuilder
                     .setCancelable(false)
                     .setPositiveButton("OK", (dialog, id) -> {
+                        checkInternetConnection();
                         EditText userName =  promptsView.findViewById(R.id.editName);
                         EditText userComment = promptsView.findViewById(R.id.editComment);
-                        EditText userText = promptsView.findViewById(R.id.EditComment);
+                        EditText userText = promptsView.findViewById(R.id.editText);
                         Log.d(TAG, userName.getText().toString());
                         Note note = new Note(userName.getText().toString(), userComment.getText().toString(), userText.getText().toString().replace("\n", "<br>"));
                         if (note.getName().isEmpty()){
-                            note.setName("<Без заголовка>");
+                            note.setName(getString(R.string.notitle));
                         }
                         if (note.getComment().isEmpty()){
-                            note.setComment("<Без комментария>");
+                            note.setComment(getString(R.string.nocommentary));
                         }
-                        if (note.getText().isEmpty()){
-                            note.setTexts("<Без текста>");
+                        if (!note.getText().isEmpty()) {
+                            arrayList.add(note);
+                            doSave(note);
+                            binding.tvEmpty.setVisibility(arrayList.isEmpty() ? View.VISIBLE : View.GONE);
+                            }else{
+                            Toast.makeText(this, R.string.no_text, Toast.LENGTH_LONG).show();
                         }
-                        arrayList.add(note);
-                        doSave(note);
-                        binding.tvEmpty.setVisibility(arrayList.isEmpty() ? View.VISIBLE : View.GONE);
                     })
                     .setNegativeButton(R.string.cancel,
                             (dialog, id) -> dialog.cancel());
@@ -145,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
             alertDialog.show();
         });
 
-        db.collection(settings.getString("UID","-"))
+        db.collection(settings.getString(getString(R.string.uid),"-"))
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -158,28 +135,51 @@ public class MainActivity extends AppCompatActivity {
                         adapter.filter("");
                         binding.tvEmpty.setVisibility(arrayList.isEmpty() ? View.VISIBLE : View.GONE);
                     } else {
-                        Log.w("Firestore", "Error getting documents.", task.getException());
+                        Log.w(getString(R.string.firestore), getString(R.string.error_getting_documents), task.getException());
                     }
                 });
     }
-    public void saving(Note note){
-        collection.document(note.getName()).set(note)
-                .addOnSuccessListener(aVoid -> {
-                    Log.d("RRRRRRRRRRRRRRR", arrayList.get(0).getName());
-                    binding.recyclerView.setAdapter(adapter);
-                    adapter.filter("");
-                    binding.tvEmpty.setVisibility(arrayList.isEmpty() ? View.VISIBLE : View.GONE);
-                    Toast.makeText(MainActivity.this, "Запись '" + note.getName() + "' сохрнена!", Toast.LENGTH_SHORT).show();
-                }).addOnFailureListener(e -> {
-                    Toast.makeText(MainActivity.this, "Error!", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, e.toString());
-                });
+    public void checkInternetConnection(){
+        if (!isConnectedNetwork(MainActivity.this)){
+            LayoutInflater li = LayoutInflater.from(getApplicationContext());
+            View no_internet = li.inflate(R.layout.no_internet, null);
+            AlertDialog.Builder mDialogBuilder= new AlertDialog.Builder(MainActivity.this);
+            mDialogBuilder.setView(no_internet);
+            mDialogBuilder
+                    .setPositiveButton(R.string.retry, (dialog, id) ->{
+                        if (!isConnectedNetwork(MainActivity.this)){
+                            checkInternetConnection();
+                        }
+                    })
+                    .setNegativeButton(R.string.exit,
+                            (dialog, id) ->{
+                                finish();
+                                dialog.cancel();
+                            });
+            AlertDialog alertDialog = mDialogBuilder.create();
+            if (no_internet.getParent() != null) {
+                ViewGroup parent = (ViewGroup) no_internet.getParent();
+                parent.removeView(no_internet);
+            }
+            alertDialog.show();
+        }
     }
     public static boolean isConnectedNetwork (Context context) {
         ConnectivityManager cm = (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo () != null && cm.getActiveNetworkInfo
-                ().isConnectedOrConnecting ();
+        return cm.getActiveNetwork () != null;
+    }
+    public void saving(Note note){
+        collection.document(note.getName()).set(note)
+                .addOnSuccessListener(aVoid -> {
+                    binding.recyclerView.setAdapter(adapter);
+                    adapter.filter("");
+                    binding.tvEmpty.setVisibility(arrayList.isEmpty() ? View.VISIBLE : View.GONE);
+                    Toast.makeText(MainActivity.this, getText(R.string.note_) + note.getName() + getText(R.string._saved), Toast.LENGTH_SHORT).show();
+                }).addOnFailureListener(e -> {
+                    Toast.makeText(MainActivity.this, getText(R.string.error), Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, e.toString());
+                });
     }
     public void doSave(Note note) {
         collection = db.collection(settings.getString("UID","-"));
@@ -189,25 +189,21 @@ public class MainActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         boolean f = true;
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            if (document.getId() == note.getName()) {
+                            if (document.getId().equals(note.getName())) {
                                 f = false;
                             }
                         }
                             if (f){
                                 saving(note);
                             }else {
-                                Toast.makeText(MainActivity.this, "Запись с таким названием уже существует!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, getText(R.string.note_exist), Toast.LENGTH_SHORT).show();
                             }
                     } else{
-                        Toast.makeText(MainActivity.this, "Error!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, getText(R.string.error), Toast.LENGTH_SHORT).show();
                     }
                 });
 
     }
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
 }
+
 

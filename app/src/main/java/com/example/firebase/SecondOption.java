@@ -1,14 +1,12 @@
 package com.example.firebase;
 
-import static java.lang.Integer.parseInt;
-
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +14,9 @@ import android.widget.Toast;
 
 import com.example.firebase.databinding.FragmentSecondOptionBinding;
 
-import java.util.Arrays;
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SecondOption#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SecondOption extends Fragment {
     private FragmentSecondOptionBinding binding;
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
 
 
@@ -37,14 +27,6 @@ public class SecondOption extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @return A new instance of fragment SecondOption.
-     */
-    // TODO: Rename and change types and number of parameters
     public static SecondOption newInstance(String param1) {
         SecondOption fragment = new SecondOption();
         Bundle args = new Bundle();
@@ -62,7 +44,7 @@ public class SecondOption extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentSecondOptionBinding.inflate(inflater, container, false);
 
@@ -92,7 +74,7 @@ public class SecondOption extends Fragment {
                     ft.commit();
                 }
             }
-            if (ans.toLowerCase().equals(s[0].toLowerCase())){
+            if (ans.equalsIgnoreCase(s[0])){
                 binding.correct.setText(R.string.correct);
                 c[0] -= 1;
                 Toast.makeText(getContext(), getString(R.string.left_to)+c[0]+getString(R.string.words_from)+c[1], Toast.LENGTH_SHORT).show();

@@ -18,26 +18,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/settings_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings"
-                app:icon="@drawable/ic_action_name" />
-
-            <Button
-                android:id="@+id/sign_out_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/quit" />
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/settings_btn"
+            android:layout_width="61dp"
+            android:layout_height="34dp"
+            android:layout_weight="1"
+            android:drawableBottom="@drawable/ic_action_name" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,7 +37,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="56dp"
                 android:layout_weight="6"
-                android:gravity="center|left"
+                android:gravity="start"
                 android:text="@string/title"
                 android:textSize="20sp" />
 
@@ -80,22 +66,22 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginStart="7dp"
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="18dp"
             android:paddingStart="5dp"
-            android:paddingLeft="5dp">
+            android:paddingEnd="5dp">
 
         </androidx.recyclerview.widget.RecyclerView>
 
         <TextView
             android:id="@+id/tvEmpty"
             android:layout_width="393dp"
-            android:layout_height="41dp"
+            android:layout_height="0dp"
             android:layout_weight="6"
             android:gravity="center"
-            android:text="Пусто"
+            android:text="@string/empty"
             android:textColor="#8E8E8E"
             android:textSize="34sp"
             android:visibility="gone" />

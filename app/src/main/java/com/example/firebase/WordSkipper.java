@@ -12,7 +12,6 @@ public class WordSkipper {
             randomNum = rand.nextInt(words.length );
         }
 
-
         String ans = words[randomNum];
         words[randomNum] = "_".repeat(words[randomNum].length());
 
@@ -20,7 +19,6 @@ public class WordSkipper {
             result += word;
         }
 
-        String[] r = {result, ans, String.valueOf(randomNum)};
-        return r;
+        return new String[]{result, ans, String.valueOf(randomNum)};
     }
 }

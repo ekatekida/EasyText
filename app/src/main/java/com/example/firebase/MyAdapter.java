@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +28,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-    final int EMPTY_VIEW = 77777;
     private ArrayList<Note> dataList;
     private ArrayList<Note> filteredNotes;
     private Context context;
@@ -84,7 +84,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         if (query.isEmpty() ||  query.equals("")) {
             filteredNotes.addAll(dataList);
         } else {
-            Toast.makeText(context, "fd "+query, Toast.LENGTH_SHORT).show();
             String filterPattern = query.toLowerCase().trim();
             for (Note note : dataList) {
                 if (note.getName().toLowerCase().contains(filterPattern)) {
@@ -114,8 +113,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         settings = context.getSharedPreferences(PREFS_FILE, MODE_PRIVATE);
         popup.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.delete){
-                deleting(position);
-                Toast.makeText(context, "Запись '"+dataList.get(position).getName()+"' удалена!", Toast.LENGTH_SHORT).show();
+                if (isConnectedNetwork(context)){
+                    deleting(position);
+                    Toast.makeText(context, "Запись '"+dataList.get(position).getName()+"' удалена!", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(context, R.string.no_internet_no_del, Toast.LENGTH_SHORT).show();
+                }
             } else if (item.getItemId() == R.id.edit){
                 showEditDialog(dataList.get(position), position);
             }
@@ -129,29 +132,33 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(context);
         mDialogBuilder.setView(promptsView);
         TextView tv = promptsView.findViewById(R.id.heading);
-        tv.setText("Изменить запись");
+        tv.setText(R.string.edit2);
         EditText noteName = promptsView.findViewById(R.id.editName);
         EditText noteComment = promptsView.findViewById(R.id.editComment);
-        EditText noteText = promptsView.findViewById(R.id.EditComment);
+        EditText noteText = promptsView.findViewById(R.id.editText);
         noteName.setText(note.getName());
         noteComment.setText(note.getComment());
         noteText.setText(note.getText().replace("<br>", "\n"));
         mDialogBuilder
                 .setCancelable(false)
                 .setPositiveButton("OK", (dialog, id) -> {
-                    Note edited_note = new Note(noteName.getText().toString(), noteComment.getText().toString(), noteText.getText().toString().replace("\n", "<br>"));
-                    if (edited_note.getName().isEmpty()) {
-                        edited_note.setName("<Без заголовка>");
+                    if (!isConnectedNetwork(context)){
+                        Toast.makeText(context, R.string.no_internet, Toast.LENGTH_SHORT).show();
+                    }else{
+                        Note edited_note = new Note(noteName.getText().toString(), noteComment.getText().toString(), noteText.getText().toString().replace("\n", "<br>"));
+                        if (edited_note.getName().isEmpty()) {
+                            edited_note.setName("<Без заголовка>");
+                        }
+                        if (edited_note.getComment().isEmpty()) {
+                            edited_note.setComment("<Без комментария>");
+                        }
+                        if (edited_note.getText().isEmpty()) {
+                            edited_note.setTexts("<Без текста>");
+                        }
+                        filteredNotes.add(position+1, edited_note);
+                        dataList.add(position+1, edited_note);
+                        doSave(edited_note, position);
                     }
-                    if (edited_note.getComment().isEmpty()) {
-                        edited_note.setComment("<Без комментария>");
-                    }
-                    if (edited_note.getText().isEmpty()) {
-                        edited_note.setTexts("<Без текста>");
-                    }
-                    filteredNotes.add(position+1, edited_note);
-                    dataList.add(position+1, edited_note);
-                    doSave(edited_note, position);
                 })
                 .setNegativeButton(R.string.cancel,
                         (dialog, id) -> dialog.cancel());
@@ -195,5 +202,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                     Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, e.toString());
                 });
+    }
+    public static boolean isConnectedNetwork (Context context) {
+        ConnectivityManager cm = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetwork () != null;
     }
 }

@@ -2,10 +2,12 @@ package com.example.firebase;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,7 +59,7 @@ public class TextFr extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         binding = FragmentTextBinding.inflate(inflater, container, false);
@@ -67,6 +69,7 @@ public class TextFr extends Fragment {
             text= getArguments().getString(ARG_PARAM1);
             Log.d("data", text);
             binding.tv.setText(text.replace("<br>", "\n"));
+            binding.tv.setMovementMethod(new ScrollingMovementMethod());
         }
 
         FirstOption Opt_1 = FirstOption.newInstance(text);

@@ -3,11 +3,11 @@ package com.example.firebase;
 public class TextShortener {
     public String doShortening( int c, String text){
         String[] words = text.split("(?<= )|(?= )|(?<=\\p{Punct})|(?=\\p{Punct})");
-        String result = " ";
+        StringBuilder result = new StringBuilder(" ");
         String vowels = "аоиеёэыуюя";
         for (String word : words) {
             if (word.trim().isEmpty() || !Character.isLetter(word.charAt(0))) {
-                result+=word;
+                result.append(word);
                 continue;
             }
             if (c == 0){
@@ -15,14 +15,14 @@ public class TextShortener {
             }
             else if(c==1){
                 if (word.length() >= 6) {
-                    String base = word.substring(0, 3); //fiojvjsdf
+                    String base = word.substring(0, 3);
                     String ending = word.substring(1);
                     if (!ending.matches(".*\\p{Punct}")) {
                         ending = ending.substring(ending.length() - 1);
                     }
-                    result = result + base + "-" + ending;
+                    result.append(base).append("-").append(ending);
                 } else {
-                    result+=word;
+                    result.append(word);
                 }
             }
             else if (c == 2){
@@ -33,9 +33,9 @@ public class TextShortener {
                         ending = ending.substring(ending.length() - 1);
                     }
 
-                    result = result + base + "-" + ending;
+                    result.append(base).append("-").append(ending);
                 } else {
-                    result+=word;
+                    result.append(word);
                 }
             }
             else if (c==4){
@@ -45,16 +45,16 @@ public class TextShortener {
                       if (!word.matches(".*\\p{Punct}")) {
                         ending = word.substring(word.length() - 1);
                     }
-                    result = result + base + "-" + ending;
+                    result.append(base).append("-").append(ending);
                 } else {
-                    result += word;
+                    result.append(word);
                 }
             }
             else if (c==5){
                 if (word.length() > 2) {
-                    result += word.substring(0, 1)+".";
+                    result.append(word.charAt(0)).append(".");
                 } else {
-                    result += word;
+                    result.append(word);
                 }
             }
             else if (c==3){
@@ -62,17 +62,17 @@ public class TextShortener {
                     for (int i = 0; i < vowels.length(); i++) {
                         if (word.contains(String.valueOf(vowels.charAt(i)))) {
                             int index = word.indexOf(vowels.charAt(i));
-                            String base = word.substring(0, index); //fiojvjsdf
-                            result = result + base + ".";
+                            String base = word.substring(0, index); 
+                            result.append(base).append(".");
                             break;
                         }
                     }
                 }
                 else {
-                    result+=word;
+                    result.append(word);
                 }
             }
         }
-        return result;
+        return result.toString();
     }
 }
