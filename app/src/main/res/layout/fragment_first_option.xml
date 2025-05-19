@@ -19,7 +19,8 @@
             android:layout_weight="30"
             android:gravity="center"
             android:scrollHorizontally="false"
-            android:text="@string/notext" />
+            android:text="@string/notext"
+            android:textColor="#000000" />
 
         <LinearLayout
             android:layout_width="match_parent"

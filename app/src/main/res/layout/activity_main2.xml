@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
+            android:textColor="#000000"
             android:textSize="24sp" />
 
         <TextView
@@ -41,14 +42,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center" />
+            android:gravity="center"
+            android:textColor="#000000" />
 
         <View
             android:id="@+id/divider2"
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:background="?android:attr/listDivider"
-            android:backgroundTint="#673AB7" />
+            android:backgroundTint="#710E07" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerView2"
