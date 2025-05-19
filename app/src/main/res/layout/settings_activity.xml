@@ -14,10 +14,19 @@
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/SettingsTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/settings" />
+                android:paddingTop="10dp"
+                android:text="@string/settings"
+                android:textSize="24sp" />
+
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                android:padding="20dp" />
 
             <TextView
                 android:id="@+id/preview_text"

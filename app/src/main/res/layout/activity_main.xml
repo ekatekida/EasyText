@@ -14,40 +14,40 @@
         android:orientation="vertical"
 
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/settings_btn"
-            android:layout_width="61dp"
-            android:layout_height="34dp"
-            android:layout_weight="1"
-            android:drawableBottom="@drawable/ic_action_name" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="100dp"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingTop="20dp">
+
+
+            <TextView
+                android:id="@+id/settingsBtn"
+                android:layout_width="32dp"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom"
+                android:foreground="@drawable/settings"
+                android:gravity="bottom" />
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="56dp"
-                android:layout_weight="6"
-                android:gravity="start"
-                android:text="@string/title"
-                android:textSize="20sp" />
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_gravity="bottom"
+                android:layout_weight="5"
+                android:gravity="center_vertical"
+                android:paddingStart="10dp"
+                android:text="@string/title2" />
 
             <Button
                 android:id="@+id/button"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="59dp"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
                 android:layout_marginEnd="15dp"
-                android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/add_note_btn" />
         </LinearLayout>

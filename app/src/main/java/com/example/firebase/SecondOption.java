@@ -77,8 +77,9 @@ public class SecondOption extends Fragment {
             if (ans.equalsIgnoreCase(s[0])){
                 binding.correct.setText(R.string.correct);
                 c[0] -= 1;
-                Toast.makeText(getContext(), getString(R.string.left_to)+c[0]+getString(R.string.words_from)+c[1], Toast.LENGTH_SHORT).show();
-
+                if (c[0] % 10 == 0) {
+                    Toast.makeText(getContext(), getString(R.string.left_to) + c[0] + getString(R.string.words_from) + c[1], Toast.LENGTH_SHORT).show();
+                }
             } else{
                 binding.correct.setText(getString(R.string.wrong)+s[0]+".");
             }

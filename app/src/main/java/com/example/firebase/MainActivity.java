@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         checkInternetConnection();
         if (name.equals("-")){
             Intent intent = new Intent(this, Registration.class);
+            finish();
             this.startActivity(intent);
         }else{
             FirebaseUser user = auth.getCurrentUser();
@@ -82,7 +83,9 @@ public class MainActivity extends AppCompatActivity {
 
         binding.settingsBtn.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            finish();
             MainActivity.this.startActivity(intent);
+
         });
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));

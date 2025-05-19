@@ -38,6 +38,21 @@ public class TextShortener {
                     result.append(word);
                 }
             }
+            else if (c==3){
+                if (word.length() >= 3) {
+                    for (int i = 0; i < vowels.length(); i++) {
+                        if (word.contains(String.valueOf(vowels.charAt(i)))) {
+                            int index = word.indexOf(vowels.charAt(i));
+                            String base = word.substring(0, index);
+                            result.append(base).append(".");
+                            break;
+                        }
+                    }
+                }
+                else {
+                    result.append(word);
+                }
+            }
             else if (c==4){
                 if (word.length() > 2) {
                     String base = word.substring(0, 1) ;
@@ -54,21 +69,6 @@ public class TextShortener {
                 if (word.length() > 2) {
                     result.append(word.charAt(0)).append(".");
                 } else {
-                    result.append(word);
-                }
-            }
-            else if (c==3){
-                if (word.length() >= 3) {
-                    for (int i = 0; i < vowels.length(); i++) {
-                        if (word.contains(String.valueOf(vowels.charAt(i)))) {
-                            int index = word.indexOf(vowels.charAt(i));
-                            String base = word.substring(0, index); 
-                            result.append(base).append(".");
-                            break;
-                        }
-                    }
-                }
-                else {
                     result.append(word);
                 }
             }

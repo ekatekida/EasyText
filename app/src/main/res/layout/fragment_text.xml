@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_weight="1"
-            android:text="@string/firstopt" />
+            android:text="@string/shortening" />
 
         <Button
             android:id="@+id/button2"
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_weight="1"
-            android:text="@string/secondopt" />
+            android:text="@string/wordskip" />
 
     </LinearLayout>
 

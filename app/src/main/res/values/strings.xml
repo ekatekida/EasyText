@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">EasyText</string>
     <string name="title">Записи</string>
-    <string name="add_note_btn">+ Добавить запись</string>
+    <string name="add_note_btn">+ Добавить</string>
     <string name="back_btn">Назад</string>
     <string name="forward_button">Далее</string>
     <string name="noname">Без заголовка</string>
@@ -59,4 +59,7 @@
     <string name="success_sign_in">Успешный вход в аккаунт:</string>
     <string name="no_internet_no_del">Запись не удалена - нет сети!</string>
     <string name="retry">Обновить</string>
+    <string name="title2">EasyText</string>
+    <string name="shortening">Режим \"Сокращение слов\"</string>
+    <string name="wordskip">Режим \"Заполнение пропусков\"</string>
 </resources>
